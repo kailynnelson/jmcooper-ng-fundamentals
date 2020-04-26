@@ -8,7 +8,8 @@ import { EventRouteActivator } from './events/event-details/event-route-activato
 // compile-time safety with ":Routes"
 export const appRoutes:Routes = [
     // whenever the url matches, show this component in the router-outlet component
-    { path: 'events/new', component: CreateEventComponent }, // 'events/new' matches 'events/:id' (ordering this first is important bc processes it first)
+    { path: 'events/new', component: CreateEventComponent, canDeactivate: ['canDeactivateCreateEvent'] }, // 'events/new' matches 'events/:id' (ordering this first is important bc processes it first)
+        // don't need a complicated service for canDeactivate; just a function is fine (registered as a provider in the app module)
     { path: 'events', component: EventsListComponent },
     { path: 'events/:id', component: EventDetailsComponent, canActivate: [EventRouteActivator] }, // /events/1; id = parameter
     // errors

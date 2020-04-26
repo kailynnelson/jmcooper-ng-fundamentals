@@ -38,9 +38,25 @@ import { EventRouteActivator } from './events/event-details/event-route-activato
   // providers are for services
   providers: [
     EventService,
+    // { provide: EventService, useValue: EventService }, // longhand version; when this is requested, use this to fulfill it
+    { 
+      provide: 'canDeactivateCreateEvent', 
+      useValue: checkDirtyState // could define it in another file, but for ease of use... see below
+    },
     ToastrService,
     EventRouteActivator
   ],
   bootstrap: [EventsAppComponent]
 })
 export class AppModule { }
+
+export function checkDirtyState(component:CreateEventComponent) {
+  // need to know whether they've saved or not 
+  // first parameter fed to the canDeactivate function is the component
+  // return false;
+
+  if(component.isDirty) {
+    return window.confirm('You have not saved this event. Do you really want to cancel?');
+  }
+  return true;
+}
